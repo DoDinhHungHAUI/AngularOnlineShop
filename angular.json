@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -27,9 +30,16 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/Admin/js/adminlte.js",
+              "src/assets/Admin/js/adminlte.min.js",
+              "src/assets/Admin/js/demo.js",
+              "src/assets/libs/jquery/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -95,6 +105,7 @@
             ],
             "styles": [
               "src/styles.css"
+
             ],
             "scripts": []
           }
