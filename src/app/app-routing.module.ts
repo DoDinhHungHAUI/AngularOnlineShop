@@ -3,11 +3,14 @@ import { ProductCategoryComponent } from './admin/product-category/product-categ
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ProductComponent } from './admin/product/product.component';
+
 const routes: Routes = [
 
   {path : '' , redirectTo : 'AdminComponent' , pathMatch : 'full'},
   {path : 'AdminComponent' , component : AdminComponent},
-  {path : 'danhMucSanPham' , component : ProductCategoryComponent}
+  {path : 'danhMucSanPham' , component : ProductCategoryComponent},
+  {path : 'danhSachSanPham' , component : ProductComponent}
 
 ];
 

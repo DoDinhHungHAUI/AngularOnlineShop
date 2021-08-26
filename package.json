@@ -18,6 +18,7 @@
     "@angular/platform-browser": "~12.1.0",
     "@angular/platform-browser-dynamic": "~12.1.0",
     "@angular/router": "~12.1.0",
+    "ckeditor4-angular": "^2.2.2",
     "jquery": "^3.6.0",
     "jw-angular-pagination": "^1.2.0",
     "ng2-order-pipe": "^0.1.5",

@@ -16,6 +16,7 @@ export class AddEditProductCategoryComponent implements OnInit {
   constructor(private productCategoryService : ProductCategoryService ,private _formBuilder : FormBuilder , private toastr: ToastrService) { }
 
   @Input('productCategoryModel') productCategoryModel : any;
+
   @Input('closeButton') closebuttonToAddorEdit : any;
 
   // @Output('ProductCategoryList')
@@ -152,11 +153,7 @@ export class AddEditProductCategoryComponent implements OnInit {
 
   addProductCategory()
   {
-
     this.isClickedAddOrEdit = true;
-
-
-
      var val =
         {
           ID : this.productCategoryList.length + 1,

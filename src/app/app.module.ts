@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProductCategoryService } from './service/productCategory.service';
 import { AddEditProductCategoryComponent } from './admin/product-category/add-edit-product-category/add-edit-product-category.component';
 
+import { CKEditorModule } from 'ckeditor4-angular';
 
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +19,8 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CustomERProductCategoryComponent } from './customError/custom-erproduct-category/custom-erproduct-category.component';
+import { ProductComponent } from './admin/product/product.component';
+import { AddEditProductComponent } from './admin/product/add-edit-product/add-edit-product.component';
 
 
 @NgModule({
@@ -27,6 +30,8 @@ import { CustomERProductCategoryComponent } from './customError/custom-erproduct
     ProductCategoryComponent,
     AddEditProductCategoryComponent,
     CustomERProductCategoryComponent,
+    ProductComponent,
+    AddEditProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +42,7 @@ import { CustomERProductCategoryComponent } from './customError/custom-erproduct
     CommonModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
+    CKEditorModule,
     ToastrModule.forRoot(),
   ],
   providers: [ProductCategoryService],
