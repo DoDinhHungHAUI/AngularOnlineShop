@@ -39,6 +39,7 @@ export class ProductService {
 
   updateProduct(val : any , fileToUpload : File):Observable<any>
   {
+    console.log(val);
     const formData: FormData = new FormData();
     //formData.append('Image', fileToUpload, fileToUpload.name);
     formData.append('Image', fileToUpload);
