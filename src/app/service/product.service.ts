@@ -17,13 +17,16 @@ export class ProductService {
     return this.http.get<any>(this.baseUrlProduct + '/getall')
   }
 
-  addProductCategory(val : any , fileToUpload: File):Observable<any>
+  addProductCategory(val : any , fileToUpload: File , myFiles : any[]):Observable<any>
   {
 
     const formData: FormData = new FormData();
     //formData.append('Image', fileToUpload, fileToUpload.name);
     formData.append('Image', fileToUpload);
     formData.append('Value', JSON.stringify(val));
+    for (var i = 0; i < myFiles.length; i++) {
+      formData.append("fileUpload", myFiles[i]);
+    }
     return this.http.post<any>(this.baseUrlProduct + '/create' , formData);
   }
 
@@ -37,17 +40,33 @@ export class ProductService {
     return this.http.get<any>(this.baseUrlProduct + '/GetImage');
   }
 
-  updateProduct(val : any , fileToUpload : File):Observable<any>
+  updateProduct(val : any , fileToUpload : File , myFiles : any[]):Observable<any>
   {
     console.log(val);
     const formData: FormData = new FormData();
     //formData.append('Image', fileToUpload, fileToUpload.name);
     formData.append('Image', fileToUpload);
     formData.append('Value', JSON.stringify(val));
+    for (var i = 0; i < myFiles.length; i++) {
+      formData.append("fileUpload", myFiles[i]);
+    }
     return this.http.put<any>(this.baseUrlProduct + '/update' , formData);
   }
 
+  exportExcel(filter : any)
+  {
+    console.log(filter);
+    if(filter == null || filter == "")
+    {
+      return this.http.get<any>(this.baseUrlProduct + '/ExportXls');
+    }
+    return this.http.get<any>(this.baseUrlProduct + '/ExportXls/' + `${filter}`);
+  }
 
+  getBaseUrlFromService()
+  {
+    return this.http.get<any>(this.baseUrlProduct + '/getReportUrl');
+  }
 
 }
 

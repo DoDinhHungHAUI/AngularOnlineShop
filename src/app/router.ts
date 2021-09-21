@@ -1,3 +1,7 @@
+import { ForbiddenComponent } from './Component/forbidden/forbidden.component';
+import { AuthGuard } from './Auth/auth.guard';
+import { ReportOrderUserComponent } from './Component/admin/report-order-user/report-order-user.component';
+import { ImportProductExcelComponent } from './Component/admin/import-product-excel/import-product-excel.component';
 import { RevenueChartComponent } from './Component/admin/revenue-chart/revenue-chart.component';
 import { AppGroupComponent } from './Component/app-group/app-group.component';
 import { AppRoleComponent } from './Component/app-role/app-role.component';
@@ -14,15 +18,20 @@ import { ProductComponent } from "./Component/admin/product/product.component";
 export const appRoutes: Routes = [
 
   //{path : '' , redirectTo : 'AdminComponent' , pathMatch : 'full'},
-  {path : 'AdminComponent' , component : AdminComponent,
+  {path : 'AdminComponent' , component : AdminComponent,canActivate : [AuthGuard] , data : {roles: ['ManagerProduct']},
     children :[
                 {path : 'danhMucSanPham' , component : ProductCategoryComponent},
                 {path : 'danhSachSanPham' , component : ProductComponent},
                 {path : 'nguoidung' , component : AppUserComponent},
                 {path : 'quyen' , component : AppRoleComponent},
                 {path : 'nhomNguoiDung' , component : AppGroupComponent},
-                {path : 'Thongkedoanhthu' , component : RevenueChartComponent}
+                {path : 'Thongkedoanhthu' , component : RevenueChartComponent},
+                {path : 'NhapSPTuExcel' , component : ImportProductExcelComponent},
+                {path : 'QuanLyDonHang' , component : ReportOrderUserComponent}
               ]
+  },
+  {
+    path : 'forbidden', component : ForbiddenComponent
   },
   // {path : 'danhMucSanPham' , component : ProductCategoryComponent},
   // {path : 'danhSachSanPham' , component : ProductComponent},

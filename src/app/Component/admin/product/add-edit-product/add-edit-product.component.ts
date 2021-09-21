@@ -3,6 +3,7 @@ import { ProductService } from 'src/app/service/product.service';
 import { ProductCategoryService } from 'src/app/service/productCategory.service';
 import { CKEditor4 } from 'ckeditor4-angular/ckeditor';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'add-edit-product',
@@ -16,6 +17,7 @@ export class AddEditProductComponent implements OnInit {
 
   @Input('productModel') productModel : any;
   @Input('urlImageedit') urlImageedit : any;
+  @Input('urlMultipleImageEdit') urlMultipleImageEdit : any;
 
   //File to Upload
   fileToUpload: any;
@@ -30,6 +32,13 @@ export class AddEditProductComponent implements OnInit {
   //isSelected
 
   isSelected : number = -1;
+
+  //upload multi images
+  myFiles: string[] = [];
+  ImageMulti : any = [];
+  fileToUploadMulti : any;
+  i : number = 0;
+  displayMutileImage : any[] = [];
 
   //Close button
   @Input('closeButton') closebuttonToAddorEdit : any;
@@ -65,13 +74,25 @@ export class AddEditProductComponent implements OnInit {
   Model :any =  null;
   whereProduct :any =  null;
 
-  constructor(private productService : ProductService , private productCategoryService : ProductCategoryService , private toastr: ToastrService) { }
+  constructor(private _formBuilder : FormBuilder , private productService : ProductService , private productCategoryService : ProductCategoryService , private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.showNameAndIdProductCategory();
     this.loadProductModel();
+    this.loadUrlImageServer();
+    this.createForm();
   }
 
+  loadUrlImageServer()
+  {
+    this.ImageMulti = [];
+    this.productService.getImage().subscribe(data => {
+      for(let i = 0 ; i < this.displayMutileImage.length ; i++)
+      {
+        this.ImageMulti.push(data + this.displayMutileImage[i]);
+      }
+    })
+  }
 
   loadProductModel()
   {
@@ -120,19 +141,37 @@ export class AddEditProductComponent implements OnInit {
       this.ischecked = 0;
     }
 
-    for(let dmuc of this.nameAndIdProductCategory)
-    {
-      if(dmuc.ID == this.productModel.ID)
-      {
-        this.isSelected = dmuc.ID;
-        break;
-      }
-    }
+    // for(let dmuc of this.nameAndIdProductCategory)
+    // {
+    //   if(dmuc.ID == this.productModel.CategoryID)
+    //   {
+    //     this.isSelected = dmuc.ID;
+    //     console.log(this.isSelected);
+    //     break;
+    //   }
+    // }
 
     if(this.urlImageedit)
     {
       this.Image = this.urlImageedit;
     }
+
+    if(this.urlMultipleImageEdit)
+    {
+      this.MoreImages = this.urlMultipleImageEdit;
+      var d = 0;
+      for(let i = 0 ; i < this.MoreImages.length ; i++)
+      {
+        if(this.MoreImages[i] == "|")
+        {
+          var arrayImages = this.MoreImages.slice(d , i);
+          d = i + 1;
+          this.displayMutileImage.push(arrayImages);
+        }
+      }
+    }
+
+    console.log(this.displayMutileImage);
   }
 
   showNameAndIdProductCategory()
@@ -140,6 +179,16 @@ export class AddEditProductComponent implements OnInit {
     this.productCategoryService.getAll().subscribe(
       data => {
         this.nameAndIdProductCategory = data;
+        for(let dmuc of this.nameAndIdProductCategory)
+        {
+          if(dmuc.ID == this.productModel.CategoryID)
+          {
+            this.isSelected = dmuc.ID;
+            console.log(this.isSelected);
+            break;
+          }
+        }
+        console.log(this.nameAndIdProductCategory);
       },
       error => {
 
@@ -174,14 +223,17 @@ export class AddEditProductComponent implements OnInit {
       Status : this.Status,
       Tags : this.Tags,
       OriginalPrice : this.OriginalPrice,
-      Quality : this.Quantity,
+      Quantity : this.Quantity,
       Color : this.Color,
       Model : this.Model,
       whereProduct : this.whereProduct
-
     };
 
-    this.productService.addProductCategory(val , this.fileToUpload).subscribe(
+    if (this.frmProduct.invalid) {
+      return;
+    }
+
+    this.productService.addProductCategory(val , this.fileToUpload , this.myFiles).subscribe(
       data => {
         console.log(data);
         this.showAddSuccess();
@@ -212,6 +264,7 @@ export class AddEditProductComponent implements OnInit {
   {
     this.fileToUpload = file.target.files.item(0);
     //Show image preview
+    console.log(file.target.files.item(0));
     var reader = new FileReader();
     reader.onload = (event:any) => {
       this.Image = event.target.result;
@@ -270,7 +323,7 @@ export class AddEditProductComponent implements OnInit {
 
     console.log(val);
 
-    this.productService.updateProduct(val , this.fileToUpload).subscribe(
+    this.productService.updateProduct(val , this.fileToUpload , this.myFiles).subscribe(
     response => {
       this.showUpdateSuccess();
       this.closebuttonToAddorEdit.nativeElement.click();
@@ -293,5 +346,78 @@ export class AddEditProductComponent implements OnInit {
       timeOut: 2000,
     });
   }
+
+  getFileDetails(e : any)
+  {
+      this.fileToUploadMulti = e.target.files.item(0);
+      //Show image preview
+
+      //console.log (e.target.files);
+      for (var i = 0; i < e.target.files.length; i++) {
+        this.myFiles.push(e.target.files[i]);
+      }
+      console.log(this.myFiles);
+
+      var reader = new FileReader();
+      reader.onload = (event:any) => {
+        this.ImageMulti[this.i] = event.target.result;
+        this.i = this.i + 1;
+      }
+      reader.readAsDataURL(this.fileToUploadMulti);
+  }
+
+
+  //Tạo form
+
+  public frmProduct : FormGroup = new FormGroup({
+
+    nameProduct : new FormControl(''),
+    AliasProduct : new FormControl(''),
+    CategoryIDProduct : new FormControl(''),
+    OriginalPriceProduct : new FormControl(''),
+    QuantityProduct : new FormControl(''),
+    PriceProduct : new FormControl(''),
+    ColorProduct : new FormControl(''),
+    ModelProduct : new FormControl(''),
+    whereProductProduct : new FormControl(''),
+  });
+
+  createForm()
+  {
+    this.frmProduct = this._formBuilder.group({
+
+      nameProduct : ['' , Validators.required],
+
+      // tieudeSeo : ['' , [
+      //   Validators.required
+      // ]],
+
+      // Name : ['' , [
+      //   Validators.required,
+      // ]],
+      AliasProduct : ['',Validators.required],
+      CategoryIDProduct : ['',Validators.required],
+      OriginalPriceProduct :['',Validators.required],
+      QuantityProduct :['',Validators.required],
+      PriceProduct : ['',Validators.required],
+      ColorProduct : ['',Validators.required],
+      ModelProduct : ['',Validators.required],
+      whereProductProduct : ['',Validators.required],
+
+    })
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

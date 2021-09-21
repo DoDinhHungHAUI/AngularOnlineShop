@@ -24,7 +24,12 @@ export class AccountService {
   userAuthentication(userName : any, password : any) {
     var data = "username=" + userName + "&password=" + password + "&grant_type=password";
     var reqHeader = new HttpHeaders({ 'Content-Type': 'application/x-www-urlencoded','No-Auth':'True' });
-    return this.http.post(this.rootUrl + '/token', data, { headers: reqHeader });
+    return this.http.post(this.rootUrl + '/token', data, { headers: reqHeader });;
+  }
+
+  getUserRole(username : any , password : any)
+  {
+    return this.http.get<any>(this.rootUrl + '/api/applicationUser/getUserRole/' + `${username}` + '/' +  `${password}`);
   }
 
 }

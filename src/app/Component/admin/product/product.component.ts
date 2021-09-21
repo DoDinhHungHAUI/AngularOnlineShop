@@ -27,7 +27,6 @@ export class ProductComponent implements OnInit {
   //Name Search
   nameSearch :string= "";
 
-
   //page phân trang
   pageSize : number = 10;
   //Current Page
@@ -42,11 +41,15 @@ export class ProductComponent implements OnInit {
   //Url image edit
 
   urlImageedit : any;
+  urlMultipleImageEdit : any;
+
+  urlImageList : any = "";
 
   constructor(private productService : ProductService , private toastrService : ToastrService) { }
 
   ngOnInit(): void {
     this.onShowProductList();
+    this.getUrlImageService();
   }
 
   onShowProductList(){
@@ -54,12 +57,21 @@ export class ProductComponent implements OnInit {
       data => {
         this.productList = data;
         this.productListToSearch = data;
+        console.log(this.productList);
       },
       error => {
         console.log(error);
         this.toastErrorLoad();
       }
   )}
+
+  getUrlImageService()
+  {
+    this.productService.getImage().subscribe(data => {
+      this.urlImageList = data;
+    })
+
+  }
 
   toastErrorLoad()
   {
@@ -109,6 +121,7 @@ export class ProductComponent implements OnInit {
     }
     this.ModelTitle = "Thêm Sản Phẩm";
     this.urlImageedit = null;
+    this.urlMultipleImageEdit = null;
     this.ActiveAddEditProduct  = true;
 
   }
@@ -130,7 +143,6 @@ export class ProductComponent implements OnInit {
       this.productList = data;
     })
   }
-
 
   removeVietnameseTones(str : any) {
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
@@ -202,7 +214,6 @@ export class ProductComponent implements OnInit {
     });
   }
 
-
   deleteProduct(item : any)
   {
     this.NameDelete = item.Name;
@@ -243,14 +254,41 @@ export class ProductComponent implements OnInit {
     console.log(item);
     this.productModel = item;
     console.log(this.productModel);
+
+    this.urlMultipleImageEdit = this.productModel.MoreImages;
+
     //gọi đến service để gán url image load lên popup
     this.productService.getImage().subscribe(data => {
       this.urlImageedit = data + this.productModel.Image;
+
       console.log(this.urlImageedit);
+      console.log(this.urlMultipleImageEdit);
       this.ModelTitle = "Cập nhật sản phẩm";
       this.ActiveAddEditProduct = true;
     })
+  }
 
+  urlService : any = "";
+  ExportExcel()
+  {
+    // this.productService.exportExcel(this.nameSearch).subscribe((res : any) => {
+    //   console.log(res);
+    //   window.location.href = 'E:\OnTapDotNetMVC\ProjectFromGitHub\OnlineShop.Web\Report\Product_20210915040101.xlsx';
+    // })
+
+    //Lấy url :
+
+    this.productService.getBaseUrlFromService().subscribe(res => {
+      this.urlService = res;
+    })
+
+    this.productService.exportExcel(this.nameSearch).subscribe((res : any) => {
+
+      console.log(this.nameSearch);
+
+      window.location.href = this.urlService +"/" + res;
+
+    })
   }
 
 }

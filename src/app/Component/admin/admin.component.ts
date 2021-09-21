@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -12,9 +13,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route : Router) { }
 
   ngOnInit(): void {
+  }
+
+  logoutClick()
+  {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userRoles')
+    this.route.navigate(['/login'])
   }
 
 }

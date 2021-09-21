@@ -40,7 +40,6 @@ export class AddEditProductCategoryComponent implements OnInit {
 
   isClickedAddOrEdit : boolean = false;
 
-
   productCategoryList : any = [];
 
   ID : number = 0;
@@ -193,7 +192,6 @@ export class AddEditProductCategoryComponent implements OnInit {
 
         };
 
-
         console.log(val);
 
         if (this.frmProductCategy.invalid) {
@@ -282,7 +280,7 @@ export class AddEditProductCategoryComponent implements OnInit {
 
       nameProductCategory : ['' , [
         Validators.required,
-        Validators.minLength(5),
+        // Validators.minLength(5),
         Validators.maxLength(100)
       ]],
 
@@ -302,10 +300,5 @@ export class AddEditProductCategoryComponent implements OnInit {
       // ]]
 
     })
-
   }
-
-
-
-
 }

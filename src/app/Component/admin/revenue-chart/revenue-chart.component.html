@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Thống kê doanh thu</h1>
+          <h1 style="font-size: 26px;line-height: 55px;">Thống kê doanh thu của Shop</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -24,16 +24,20 @@
           <!-- AREA CHART -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Biểu đồ thống kê lợi nhuận</h3>
+              <h3 class="card-title">Biểu đồ thống kê lợi nhuận : {{fromDateChange}} - {{toDateChange}}</h3>
               <div>
-                <label>Từ ngày </label>
-                <input type="date" value="" [(ngModel)]="fromDate" />
-                <label>Đến ngày </label>
-                <input type="date" value="" [(ngModel)]="toDate" />
-                <button type="button" (click) = "thongKe()">Thống kê</button>
+                <label style="margin-right: 10px;
+                font-weight: 700;" >Từ ngày </label>
+                <input type="date" value="01/01/2021" [(ngModel)]="fromDate" style="border-radius: 2px;
+                border-radius: 3px;" />
+                <label style="font-weight: 700;margin-left: 7px;" >Đến ngày </label>
+                <input type="date" value="01/01/2022" [(ngModel)]="toDate" style="border-radius: 3px;
+                margin-left: 7px;" />
+                <button type="button" (click) = "thongKe()" style=" border-radius: 3px;
+                margin-left: 5px;background-color: #ffc107;color: white;border: none;cursor: pointer;">Thống kê</button>
               </div>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                <button type="button" class="btn btn-tool mr-2" data-card-widget="collapse"><i class="fas fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
               </div>
@@ -57,7 +61,7 @@
               <h3 class="card-title">Dữ liệu thống kê</h3>
 
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                <button type="button" class="btn btn-tool mr-2" data-card-widget="collapse"><i class="fas fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
               </div>

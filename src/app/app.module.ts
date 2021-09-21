@@ -33,6 +33,13 @@ import { AddEditRoleComponent } from './Component/app-role/add-edit-role/add-edi
 import { AppGroupComponent } from './Component/app-group/app-group.component';
 import { AddEditGroupComponent } from './Component/app-group/add-edit-group/add-edit-group.component';
 import { RevenueChartComponent } from './Component/admin/revenue-chart/revenue-chart.component';
+import { ImportProductExcelComponent } from './Component/admin/import-product-excel/import-product-excel.component';
+import { ReportOrderUserComponent } from './Component/admin/report-order-user/report-order-user.component';
+import { TemplateReportComponent } from './Component/admin/report-order-user/template-report/template-report.component';
+import { CustomErrorProductComponent } from './Component/customError/custom-error-product/custom-error-product.component';
+import { AuthGuard } from './Auth/auth.guard';
+import { ForbiddenComponent } from './Component/forbidden/forbidden.component';
+
 
 @NgModule({
   declarations: [
@@ -55,6 +62,11 @@ import { RevenueChartComponent } from './Component/admin/revenue-chart/revenue-c
     AppGroupComponent,
     AddEditGroupComponent,
     RevenueChartComponent,
+    ImportProductExcelComponent,
+    ReportOrderUserComponent,
+    TemplateReportComponent,
+    CustomErrorProductComponent,
+    ForbiddenComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +80,7 @@ import { RevenueChartComponent } from './Component/admin/revenue-chart/revenue-c
     CKEditorModule,
     ToastrModule.forRoot(),
   ],
-  providers: [ProductCategoryService],
+  providers: [ProductCategoryService , AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

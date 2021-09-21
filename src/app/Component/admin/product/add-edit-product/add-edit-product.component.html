@@ -1,18 +1,20 @@
 
 
-<form autocomplete="false" novalidate = "true">
+<form autocomplete="false" novalidate = "true" [formGroup] = "frmProduct">
 
   <div class="form-group row">
 
     <div class="col-sm-6 col-xl-6">
       <label class=" control-label">Tên Sản Phẩm<span style="color : red">*</span></label>
 
-      <input type="text" class="form-control" [(ngModel)]="Name" placeholder="Tên sản phẩm" [ngModelOptions]="{standalone: true}"  />
+      <input type="text" class="form-control" [(ngModel)]="Name" placeholder="Tên sản phẩm" formControlName = "nameProduct" />
+      <app-custom-error-product *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.nameProduct" namecontrol = "Tên sản phẩm"></app-custom-error-product>
     </div>
 
     <div class="col-sm-6 col-xl-6">
       <label class="control-label">Tên đề SEO <span  style="color : red">*</span></label>
-      <input type="text"  [(ngModel)]="Alias" class="form-control" id="TieudeSeo" placeholder="Tiêu đề seo" [ngModelOptions]="{standalone: true}" >
+      <input type="text"  [(ngModel)]="Alias" class="form-control" id="TieudeSeo" placeholder="Tiêu đề seo" formControlName = "AliasProduct" >
+      <app-custom-error-product  *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.AliasProduct" namecontrol = "Tiêu đề Seo"></app-custom-error-product>
     </div>
   </div>
 
@@ -34,12 +36,13 @@
     </div>
 
     <div class="col-sm-6 col-xl-6">
-      <label for="dmCha" class="control-label">Danh mục</label>
-      <select class="form-control" id="dmCha"  [(ngModel)]="CategoryID" [ngModelOptions]="{standalone: true}" >
+      <label for="dmCha" class="control-label">Danh mục <span style="color : red">*</span></label>
+      <select class="form-control" id="dmCha"  [(ngModel)]="CategoryID" formControlName = "CategoryIDProduct" >
         <option [selected] = "isSelected == item.ID" *ngFor="let item of nameAndIdProductCategory" value="{{item.ID}}">
             {{item.Name}}
         </option>
       </select>
+      <app-custom-error-product *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.CategoryIDProduct" namecontrol = "Danh mục"></app-custom-error-product>
     </div>
   </div>
 
@@ -62,27 +65,30 @@
   </div> -->
 
   <div class="form-group row">
+    <div class="col-sm-6 col-xl-6">
+      <label for="gia" class="control-label" >Giá Nhập<span  style="color : red">*</span></label>
+      <input type="number" class="form-control" id="giaNhap" [(ngModel)]="OriginalPrice" formControlName = "OriginalPriceProduct" placeholder="Giá nhập" >
+      <app-custom-error-product *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.OriginalPriceProduct" namecontrol = "Giá nhập"></app-custom-error-product>
+    </div>
 
+    <div class="col-sm-6 col-xl-6">
+      <label for="gia" class="control-label" >Giá Bán<span  style="color : red">*</span></label>
+      <input type="number" class="form-control" id="gia" [(ngModel)]="Price" formControlName ="PriceProduct" placeholder="Giá" >
+      <app-custom-error-product *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.PriceProduct" namecontrol = "Giá bán"></app-custom-error-product>
+    </div>
+  </div>
+
+  <div class="form-group row">
     <div class="col-sm-6 col-xl-6">
       <label class="control-label">Bảo hành ( tháng )</label>
       <input type="number" class="form-control" [(ngModel)]="Warranty" [ngModelOptions]="{standalone: true}" placeholder="Bảo hành" >
     </div>
 
     <div class="col-sm-6 col-xl-6">
-      <label for="gia" class="control-label" >Giá Nhập<span  style="color : red">*</span></label>
-      <input type="number" class="form-control" id="giaNhap" [(ngModel)]="OriginalPrice" [ngModelOptions]="{standalone: true}" placeholder="Giá nhập" >
-    </div>
-
-    <div class="col-sm-6 col-xl-6">
       <label for="gia" class="control-label" >Số Lượng<span  style="color : red">*</span></label>
-      <input type="number" class="form-control" id="giaNhap" [(ngModel)]="Quantity" [ngModelOptions]="{standalone: true}" placeholder="số lượng" >
+      <input type="number" class="form-control" id="giaNhap" [(ngModel)]="Quantity" formControlName ="QuantityProduct" placeholder="số lượng" >
+      <app-custom-error-product *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.QuantityProduct" namecontrol = "Số lượng"></app-custom-error-product>
     </div>
-
-    <div class="col-sm-6 col-xl-6">
-      <label for="gia" class="control-label" >Giá Bán<span  style="color : red">*</span></label>
-      <input type="number" class="form-control" id="gia" [(ngModel)]="Price" [ngModelOptions]="{standalone: true}" placeholder="Giá" >
-    </div>
-
   </div>
 
   <!-- <div class="form-group row">
@@ -103,16 +109,19 @@
   <div class="form-group row">
 
     <div class="col-sm-6 col-xl-6">
-      <label for="MauSac" class="control-label">Màu Sắc</label>
-      <input type="text" class="form-control" id="MauSac" [(ngModel)]="Color" [ngModelOptions]="{standalone: true}" placeholder="MauSac">
+      <label for="MauSac" class="control-label">Màu Sắc <span style="color : red">*</span></label>
+      <input type="text" class="form-control" id="MauSac" [(ngModel)]="Color" formControlName= "ColorProduct" placeholder="MauSac">
+      <app-custom-error-product namecontrol = "Màu sắc"  *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.ColorProduct" namecontrol = "Màu sắc"></app-custom-error-product>
     </div>
     <div class="col-sm-6 col-xl-6">
-      <label for="HangSx" class="control-label">Hãng Sản xuất</label>
-      <input type="text" class="form-control" id="HangSx" [(ngModel)]="Model" [ngModelOptions]="{standalone: true}" placeholder="Hãng sản xuất">
+      <label for="HangSx" class="control-label">Hãng Sản xuất <span style="color : red">*</span></label>
+      <input type="text" class="form-control" id="HangSx" [(ngModel)]="Model" formControlName = "ModelProduct" placeholder="Hãng sản xuất">
+      <app-custom-error-product namecontrol = "Hãng sản xuất" *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.ModelProduct" namecontrol = "Hãng sản xuất"></app-custom-error-product>
     </div>
     <div class="col-sm-6 col-xl-6">
-      <label for="NoiSanXuat" class="control-label">Nơi sản xuất</label>
-      <input type="text" class="form-control" id="NoiSanXuat" [(ngModel)]="whereProduct" [ngModelOptions]="{standalone: true}" placeholder="Nơi sản xuất">
+      <label for="NoiSanXuat" class="control-label">Nơi sản xuất <span style="color : red">*</span></label>
+      <input type="text" class="form-control" id="NoiSanXuat" [(ngModel)]="whereProduct" formControlName = "whereProductProduct" placeholder="Nơi sản xuất">
+      <app-custom-error-product namecontrol = "Nơi sản xuất" *ngIf = "isClickedAddOrEdit == true" [control] = "frmProduct.controls.whereProductProduct" namecontrol = "Nơi sản xu"></app-custom-error-product>
     </div>
 
   </div>
@@ -138,19 +147,24 @@
     </div>
 
     <div class="col-sm-6 col-xl-6">
-      <label for="thuThu" class="control-label">Hình Ảnh</label>
+      <label for="thuThu" class="control-label">Hình Ảnh <span style="color : red">*</span></label>
       <div class="row">
+
         <div class="col-sm-6 col-xl-6 img-preview">
           <img src="{{Image}}" *ngIf="Image"  width="100%" height="100%" />
         </div>
+
         <div class="col-sm-5 col-xl-5">
           <div class="custom-file">
             <input type="file" class="custom-file-input" (change)="handleFileInput($event)" id="customFile" hidden >
             <label class="custom-file-label-change" for="customFile"></label>
           </div>
         </div>
+
       </div>
     </div>
+
+
   </div>
 
   <!-- <div class="form-group row">
@@ -172,7 +186,7 @@
 
   <div class="form-group row">
     <div class="col-sm-12">
-      <label for="metaDescription" class="control-label" >Mô tả sản phẩm</label>
+      <label for="metaDescription" class="control-label" >Mô tả sản phẩm <span style="color : red">*</span></label>
       <!-- <div class="col-sm-9 col-md-9 col-xl-10">
         <textarea  type="text" class="form-control" id="metaDescription">
 
@@ -219,6 +233,22 @@
     </div>
   </div>
 
+  <label for="thuThu" class="control-label">Ảnh chi tiết<span style="color : red">*</span></label>
+  <div class="form-group row">
+
+    <div class="col-sm-9 wrap_multi_image">
+      <div *ngFor="let item of ImageMulti" class="div_image">
+        <img src="{{item}}" height="100px" width="100px" />
+      </div>
+    </div>
+    <div class="col-sm-2">
+       <div class="custom-multi-file">
+          <input type="file" class="custom-Multifile-input" (change)="getFileDetails($event)" id="customMultiFile" hidden >
+          <label class="custom-multi-file-label-change" for="customMultiFile"></label>
+        </div>
+    </div>
+  </div>
+
   <div class="form-group row">
     <label for="metaDescription" class="col-sm-3 col-md-3 col-xl-2 control-label">Trạng Thái</label>
     <div class="form-check col-sm-9 col-md-9 col-xl-10">
@@ -253,10 +283,7 @@
       Hủy
     </button>
    </div>
-
   </div>
-
-
 
 </form>
 

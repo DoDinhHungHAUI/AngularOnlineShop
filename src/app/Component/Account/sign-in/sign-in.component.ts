@@ -14,9 +14,13 @@ export class SignInComponent implements OnInit {
 
   isLoginError : boolean = false;
 
+  isCustomValid : boolean = false;
+
+  userRole : any[] = [];
+
   constructor(private accountService : AccountService , private router : Router , private fb : FormBuilder , private toastr : ToastrService) {
 
-   }
+  }
 
   ngOnInit(): void {
   }
@@ -28,15 +32,39 @@ export class SignInComponent implements OnInit {
 
   onClickLogin(UserName : any , passWord : any)
   {
+    this.isCustomValid = true;
+    if(this.profileUser.invalid)
+    {
+      return;
+    }
+
     this.accountService.userAuthentication(UserName,passWord).subscribe((data : any)=>{
+      localStorage.removeItem('userToken');
       localStorage.setItem('userToken',data.access_token);
-      this.router.navigate(['/home']);
-      this.showLoginSuccess();
+      this.accountService.getUserRole(UserName , passWord).subscribe(data => {
+        localStorage.removeItem('userRoles');
+        localStorage.setItem('userRoles',data.Result);
+        this.router.navigate(['/AdminComponent']);
+        this.showLoginSuccess();
+      })
     },
     (err : HttpErrorResponse)=>{
-      this.isLoginError = true;
-      this.showLoginError();
+      console.log(err.error.error);
+      if(err.error.error == 'invalid_grant')
+      {
+        this.isLoginError = true;
+      }
+      else{
+        this.showLoginError();
+      }
     });
+
+    // if(isLogin = true)
+    // {
+    //   this.accountService.getUserRole(UserName , passWord).subscribe(data => {
+    //     console.log(data);
+    //   })
+    // }
   }
 
   showLoginSuccess() {

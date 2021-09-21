@@ -16,6 +16,8 @@ export class RevenueChartComponent implements OnInit {
   fromDate : string = "01/01/2021";
   toDate : string = "01/01/2022";
 
+  fromDateChange : string = "01/01/2021";
+  toDateChange : string = "01/01/2022";
 
   chart : any =[];
   benefit : any = [];
@@ -100,14 +102,13 @@ export class RevenueChartComponent implements OnInit {
 
   thongKe()
   {
-    var fromDateChange = this.fromDate.slice(8,10) + '/' + this.fromDate.slice(5,7) + '/' + this.fromDate.slice(0,4);
-    var toDateChange = this.toDate.slice(8,10) + '/' + this.toDate.slice(5,7) + '/' + this.toDate.slice(0,4);
+    this.fromDateChange = this.fromDate.slice(8,10) + '/' + this.fromDate.slice(5,7) + '/' + this.fromDate.slice(0,4);
+    this.toDateChange = this.toDate.slice(8,10) + '/' + this.toDate.slice(5,7) + '/' + this.toDate.slice(0,4);
 
-    console.log(fromDateChange);
-    console.log(toDateChange);
 
-    this.statisticRevenueService.getAll(fromDateChange , toDateChange).subscribe(data => {
+    this.statisticRevenueService.getAll(this.fromDate , this.toDate).subscribe(data => {
       this.listStatisticRevenue = data;
+      console.log(this.listStatisticRevenue);
       this.benefit = this.listStatisticRevenue.map((item : any) => item.Benefit);
       this.date =  this.listStatisticRevenue.map((item : any) => this.formatDate(item.Date));
 

@@ -35,4 +35,32 @@ export class UserService {
   }
 
 
+  roleMatch(allowedRoles : any): boolean {
+    var isMatch = false;
+    var userRoles = localStorage.getItem('userRoles');
+
+    var arrayUserRole = userRoles?.split(',') as string[];
+
+    allowedRoles.forEach((elm : any) => {
+      if (arrayUserRole.indexOf(elm) > -1) {
+        isMatch = true;
+      }
+    });
+    return isMatch;
+
+    // console.log(userRoles?.split(','));
+
+    // console.log(userRoles);
+    //return isMatch;
+
+    // allowedRoles.forEach((elm : any) => {
+    //   if (userRoles.indexOf(elm) > -1) {
+    //     isMatch = true;
+    //   }
+    // });
+    // return isMatch;
+
+  }
+
+
 }

@@ -21,6 +21,7 @@
     "chart.js": "^3.5.1",
     "ckeditor4-angular": "^2.2.2",
     "jquery": "^3.6.0",
+    "jspdf": "^2.4.0",
     "jw-angular-pagination": "^1.2.0",
     "ng2-order-pipe": "^0.1.5",
     "ngx-pagination": "^5.1.1",
